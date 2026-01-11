@@ -1,0 +1,859 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Satoshi Font Family - Body (Optimize: Sadece gerekli weight'ler) */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/satoshi/Satoshi-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/satoshi/Satoshi-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/satoshi/Satoshi-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* SF Pro Display Font Family - Headings (Optimize: Sadece gerekli weight'ler) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('/sf-pro-display/SFPRODISPLAYREGULAR.OTF') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('/sf-pro-display/SFPRODISPLAYMEDIUM.OTF') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('/sf-pro-display/SFPRODISPLAYBOLD.OTF') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  /* Premium Dental Clinic Colors */
+  --color-primary: #FAFAFA;
+  --color-accent: #6D559F;
+  --color-accent-hover: #5D4889;
+  --color-accent-light: #E1DCF0;
+  --color-text: #1E1E1E;
+  --color-text-muted: #6B6B6B;
+  --color-text-light: #9B9B9B;
+  --color-border: #E9E6F2;
+  --color-border-light: #F3F1F7;
+  --color-background: #FFFFFF;
+  --color-background-alt: #F5F3F9;
+  
+  /* Font Families */
+  --font-heading: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* shadcn/ui compatibility */
+  --color-foreground: var(--color-text);
+  --color-card: var(--color-background);
+  --color-card-foreground: var(--color-text);
+  --color-popover: var(--color-background);
+  --color-popover-foreground: var(--color-text);
+  --color-primary-foreground: var(--color-background);
+  --color-secondary: var(--color-background-alt);
+  --color-secondary-foreground: var(--color-text);
+  --color-muted: var(--color-background-alt);
+  --color-muted-foreground: var(--color-text-muted);
+  --color-accent-foreground: var(--color-text);
+  --color-destructive: #E57373;
+  --color-input: var(--color-border);
+  --color-ring: var(--color-accent);
+  
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+}
+
+:root {
+  --radius: 1rem;
+}
+
+/* Premium Smooth Scroll Styles */
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  overflow-x: hidden;
+  cursor: auto;
+}
+
+/* Text Reveal Animation Utilities */
+.word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.1em;
+}
+
+.word-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.word-inner.animate {
+  transform: translateY(0%);
+}
+
+/* Premium Card Hover Effects */
+.premium-card {
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.premium-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Smooth Image Scaling */
+.image-scale {
+  transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.image-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Premium Button Animations */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+/* Noise Overlay for Premium Feel */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  body {
+    @apply bg-primary text-text font-body;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    letter-spacing: -0.01em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+    letter-spacing: -0.02em;
+  }
+  
+  p {
+    letter-spacing: 0.01em;
+    line-height: 1.7;
+  }
+  
+  /* Premium body text styling */
+  .text-body, 
+  .font-body {
+    letter-spacing: 0.01em;
+  }
+  
+  /* Smaller text gets slightly more spacing for readability */
+  small, .text-sm, .text-xs {
+    letter-spacing: 0.02em;
+  }
+  
+  /* Uppercase text gets more spacing */
+  .uppercase {
+    letter-spacing: 0.1em;
+  }
+}
+
+@layer utilities {
+  /* Typography utilities */
+  .font-heading {
+    font-family: var(--font-heading), serif;
+    letter-spacing: -0.02em;
+  }
+  
+  .font-body {
+    font-family: var(--font-body), sans-serif;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Standardized Heading Sizes - Satoshi font */
+  .text-h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  
+  .text-h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  
+  .text-h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  
+  .text-h4 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  
+  .text-h5 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  
+  .text-h6 {
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  
+  /* Standardized Body Text Sizes - SF Pro Display font */
+  .text-body-lg {
+    font-family: var(--font-body);
+    font-size: clamp(1.125rem, 1.75vw, 1.25rem);
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+  }
+  
+  .text-body {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+  }
+  
+  .text-body-sm {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+  }
+  
+  .text-caption {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  
+  .text-overline {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  /* Section spacing utilities */
+  .section-generous {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+  
+  .section-balanced {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+  
+  .section-compact {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+  
+  /* Container utilities */
+  .container-default {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12;
+  }
+  
+  .container-narrow {
+    @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .container-wide {
+    @apply max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12;
+  }
+}
+
+/* ===========================================
+   MOBILE DEVICE RESPONSIVE BREAKPOINTS
+   =========================================== */
+
+/* Extra Small Devices - iPhone SE, iPhone 12 mini (320px - 375px) */
+@media (max-width: 374px) {
+  .text-h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+  
+  .text-h2 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+  
+  .text-h3 {
+    font-size: 1.25rem;
+  }
+  
+  .text-h4 {
+    font-size: 1.1rem;
+  }
+  
+  .text-body {
+    font-size: 0.9rem;
+  }
+  
+  .text-body-sm {
+    font-size: 0.8rem;
+  }
+  
+  .container-default,
+  .container-wide {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Small Devices - iPhone 12/13/14/15, Samsung Galaxy S series (375px - 413px) */
+@media (min-width: 375px) and (max-width: 413px) {
+  .text-h1 {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+  
+  .text-h2 {
+    font-size: 1.625rem;
+    line-height: 1.2;
+  }
+  
+  .text-h3 {
+    font-size: 1.375rem;
+  }
+  
+  .text-h4 {
+    font-size: 1.125rem;
+  }
+  
+  .container-default,
+  .container-wide {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+/* Medium Devices - iPhone Pro/Pro Max, Plus models, Samsung Galaxy+ (414px - 479px) */
+@media (min-width: 414px) and (max-width: 479px) {
+  .text-h1 {
+    font-size: 2.125rem;
+    line-height: 1.15;
+  }
+  
+  .text-h2 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+  
+  .text-h3 {
+    font-size: 1.5rem;
+  }
+  
+  .text-h4 {
+    font-size: 1.25rem;
+  }
+  
+  .container-default,
+  .container-wide {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Large Mobile / Small Tablet (480px - 639px) */
+@media (min-width: 480px) and (max-width: 639px) {
+  .text-h1 {
+    font-size: 2.25rem;
+  }
+  
+  .text-h2 {
+    font-size: 1.875rem;
+  }
+  
+  .container-default,
+  .container-wide {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Tablet Portrait (640px - 767px) */
+@media (min-width: 640px) and (max-width: 767px) {
+  .text-h1 {
+    font-size: 2.5rem;
+  }
+  
+  .text-h2 {
+    font-size: 2rem;
+  }
+  
+  .container-default,
+  .container-wide {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Tablet Landscape / Small Laptop (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .text-h1 {
+    font-size: 2.75rem;
+  }
+  
+  .text-h2 {
+    font-size: 2.25rem;
+  }
+  
+  .container-default,
+  .container-wide {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ===========================================
+   LAPTOP RESPONSIVE BREAKPOINTS
+   =========================================== */
+
+/* MacBook Air 13" (1440x900, 1280x800) */
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .text-h1 {
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+  }
+  
+  .text-h2 {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  }
+  
+  .container-default,
+  .container-wide {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* MacBook Pro 14" (3024x1964 scaled to ~1512x982) */
+@media (min-width: 1440px) and (max-width: 1600px) {
+  .container-default,
+  .container-wide {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* Large desktop (1920px+) */
+@media (min-width: 1920px) {
+  .container-default {
+    max-width: 1400px;
+  }
+  
+  .container-wide {
+    max-width: 1600px;
+  }
+}
+
+/* ===========================================
+   MOBILE-SPECIFIC COMPONENT STYLES
+   =========================================== */
+
+/* Mobile touch targets - minimum 44px for accessibility */
+@media (max-width: 767px) {
+  .btn-premium,
+  button,
+  a[href] {
+    min-height: 44px;
+  }
+  
+  /* Improve form inputs on mobile */
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
+  
+  /* Better spacing for mobile cards */
+  .premium-card {
+    padding: 1rem;
+  }
+  
+  /* Reduce section padding on mobile */
+  .section-generous {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .section-balanced {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+  
+  .section-compact {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+
+/* Hero Background Animations */
+@keyframes gradient-slow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  50% {
+    transform: translateY(-10px) translateX(-10px);
+  }
+  75% {
+    transform: translateY(-30px) translateX(5px);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(15px) translateX(-15px);
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  75% {
+    transform: translateY(10px) translateX(-5px);
+  }
+}
+
+.animate-gradient-slow {
+  background-size: 200% 200%;
+  animation: gradient-slow 15s ease infinite;
+}
+
+.animate-float {
+  animation: float 20s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 25s ease-in-out infinite;
+}
+
+/* Smooth Gradient Flow Animation */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ===========================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   =========================================== */
+
+/* Mobil cihazlarda hover efektlerini ve ağır animasyonları devre dışı bırak */
+@media (max-width: 767px) {
+  /* Hover efektlerini kaldır - performans için */
+  .premium-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  
+  .image-scale:hover {
+    transform: none !important;
+  }
+  
+  .btn-premium:hover {
+    transform: none !important;
+  }
+  
+  .btn-premium:hover::before {
+    left: -100% !important;
+  }
+  
+  /* Ağır animasyonları kaldır */
+  .animate-float,
+  .animate-float-delayed {
+    animation: none !important;
+  }
+  
+  /* Gradient animasyonlarını daha hafif yap */
+  .animate-gradient-slow {
+    animation-duration: 30s !important; /* 15s yerine 30s - daha yavaş, daha az CPU */
+  }
+  
+  /* GPU acceleration'ı azalt */
+  .premium-card,
+  .image-scale,
+  .btn-premium {
+    will-change: auto !important;
+  }
+  
+  /* Transition'ları kısalt */
+  .premium-card,
+  .image-scale {
+    transition-duration: 0.2s !important;
+  }
+}
+
+/* Prefers Reduced Motion - Erişilebilirlik için */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===========================================
+   PERFORMANSLI CSS ANIMASYONLARI (Mobil)
+   =========================================== */
+
+/* Fade In - Basit opacity */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade In Up - Opacity + yukarı hareket */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Down - Opacity + aşağı hareket */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale In - Opacity + scale */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Slide In Left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide In Right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animasyon Sınıfları */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+/* Stagger Delays - Sıralı animasyonlar için */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* Initial hidden state */
+.animate-on-scroll {
+  opacity: 0;
+}
+
+/* Visible state - intersection observer ile tetiklenir */
+.animate-on-scroll.is-visible {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Mobile-specific: Daha hızlı animasyonlar */
+@media (max-width: 767px) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-scale-in,
+  .animate-slide-in-left,
+  .animate-slide-in-right {
+    animation-duration: 0.4s !important;
+  }
+}
+
+
+/* ===========================================
+   MOBİL YUVARLAK ELEMENT FIX
+   =========================================== */
+
+/* Mobilde yuvarlak elementlerin aspect-ratio'sunu koru */
+@media (max-width: 767px) {
+  .mobile-circle {
+    aspect-ratio: 1 / 1 !important;
+    flex-shrink: 0 !important;
+    min-width: fit-content !important;
+  }
+}
+
+/* ===========================================
+   FILM GRAIN ANIMATION
+   =========================================== */
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
